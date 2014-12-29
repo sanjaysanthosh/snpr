@@ -9,6 +9,7 @@
 \usepackage{graphicx} % Required for including pictures
 \usepackage{listings}    
 \lstset{language=C}
+\usepackage{xcolor}
 \usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
 \usepackage{wrapfig} % Allows in-line images such as the example fish picture
 \usepackage{amsmath}
@@ -21,6 +22,29 @@
 \setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
 
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\lstset{
+	language=C,    
+  	breaklines=true,%default: false
+    basicstyle=\fontsize{10}{10}\ttfamily, %\ttfamily\scriptsize,
+    keywordstyle=\color{red}\sffamily\bfseries,                                                                
+    commentstyle=\itshape\color{purple!40!black}, 
+    identifierstyle=\color{blue},                                 
+    %stringstyle=\rmfamily,     
+    stringstyle=\color{blue!20!black!10!green!10},                                                 
+    showstringspaces=false,%default: true
+    backgroundcolor=\color{white},
+  	breakatwhitespace=false,
+ 	breaklines=true,
+ 	escapeinside={\%*}{*},
+  	%columns=fullflexible,
+  	xleftmargin=3.2pt,
+  	frame=none,%default: none 
+    framerule=0.2pt,%expands outward 
+    rulecolor=\color{red},
+    framesep=3pt,%expands outward
+    %numbers=left,
+}
 
 \begin{document}
 
@@ -54,10 +78,14 @@ Supervisor: \\
 Vlado \textsc{Handziski}\\ 
 Tim \textsc{Bormann} \\
 \vspace{30 mm}
+\begin{figure}[H]
+ \centering
+ \includegraphics[width=2cm]{logo}
+\end{figure}
 Telecommunication Networks Group\\
 Technical University Berlin\\ 
-
 \end{flushleft}
+
 \end{minipage} \\[1cm]
 \end{center}
 
