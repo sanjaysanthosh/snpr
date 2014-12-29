@@ -92,16 +92,18 @@ Technical University Berlin\\
 \vspace{30 mm}
 \end{titlepage}
 
-\section*{Excercise 2.1:}
+\section*{Excercise 2.1: \textnormal{\large{\textit{LED Flash} Write an application that uses the introduced interfaces
+to let a LED flash with a given frequency. This means that the on-time of the led is shorter than the off-time.}}}
 In this exercise, we are using two timers. Timer0 is 25msec and Timer1 is 1000msec. When Timer0 is fired the led is turned off and when the Timer1 is fired then the led is turned on. In this way, the on time is shorter than the off time since the Timer0 is fired much often than the Timer1.
 
-\section*{Excercise 2.2:}
+\section*{Excercise 2.2: \textnormal{\large{\textit{Binary Counter interface}}}}
 The attached zip file contains four files for this exercise, BinCounter is the interface, BinCounterP is the module that that provides the interface BinCounter and BinCountertestP is the module that uses the interface BinCounter. This 3-bit counter runs four times and then stops.
 
-\section*{Excercise 2.3:}
+\section*{Excercise 2.3: \textnormal{\large{\textit{Hardware peripherals} To which pins are the LEDs connected, and how does the software control these pins?.}}}
 The LEDs LED1, LED2, LED3 are connected to the pins 48, 49, 50 respectively. The LEDs are connected in series to a resistor so that the current is regulated in the circuit and the microcontroller is protected. When in an application we call the command to turn `ON' and LED the respective pin is made to `0' from its default state of `1'. This is quite clear from the schematic of the board. And when the application calls the command to switch off the LEDs the pin is made (`1') and the LED goes to OFF state.
 
-\section*{Excercise 2.4:}
+\section*{Excercise 2.4: \textnormal{\large{\textit{nesC and C} What are the main differences between nesC and
+the C language? You may use the blinking LED example to explain it.}}}
 There are three main differences between nesC and C programming.
 \begin{enumerate}
 \item nesC uses components and C uses files instead. This makes nesC programming more modular. In the blinkingLED example, both ``BlinkC'' and ``BlinkApp'' are components.
@@ -119,7 +121,8 @@ BlinkC.Leds -> LedsC;
 It says that BlinkC is connected to the MainC through the Boot interface provided by the MainC. And the BlinckC is further connected to the Timer0, Timer1 and LedsC through the Timer0, Timer1 and Leds interfaces respectively.
 
 \end{enumerate}
-\section*{Excercise 2.5:}
+\section*{Excercise 2.5: \textnormal{\large{\textit{TinyOS readability} In TinyOS, applications tend to be composed
+of many small components. This can make an application quite difficult to understand at a first read. Why is the component architecture used anyway?}}}
 The reason for such an architecture being used in TinyOS is that
 \begin{enumerate}
 \item It has an extremely small foot print.

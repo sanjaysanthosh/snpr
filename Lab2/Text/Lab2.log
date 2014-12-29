@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  29 DEC 2014 18:42
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  29 DEC 2014 21:18
 entering extended mode
  %&-line parsing enabled.
 **Lab2.tex
@@ -444,22 +444,24 @@ already used, duplicate ignored
 l.112 
        [1] [2] (./Lab2.aux) ) 
 Here is how much of TeX's memory you used:
- 9279 strings out of 493848
- 144529 string characters out of 1152824
- 306743 words of memory out of 3000000
- 12401 multiletter control sequences out of 15000+50000
- 9552 words of font info for 47 fonts, out of 3000000 for 9000
+ 9305 strings out of 493848
+ 144790 string characters out of 1152824
+ 308743 words of memory out of 3000000
+ 12406 multiletter control sequences out of 15000+50000
+ 10927 words of font info for 59 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  38i,8n,49p,781b,1119s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfo
 nts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcs
 c10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
-r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Lab2.pdf (3 pages, 94969 bytes).
+r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fo
+nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/p
+ublic/amsfonts/cm/cmti12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/cm/cmtt10.pfb>
+Output written on Lab2.pdf (3 pages, 125901 bytes).
 PDF statistics:
- 65 PDF objects out of 1000 (max. 8388607)
+ 73 PDF objects out of 1000 (max. 8388607)
  19 named destinations out of 1000 (max. 500000)
- 9222 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 13318 words of extra memory for PDF output out of 14400 (max. 10000000)
 
