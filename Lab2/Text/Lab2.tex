@@ -1,0 +1,102 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt]{article} % Default font size is 12pt, it can be changed here
+
+\usepackage[a4paper]{geometry} % Required to change the page size to A4
+
+\usepackage{graphicx} % Required for including pictures
+\usepackage{listings}    
+\lstset{language=C}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\usepackage{wrapfig} % Allows in-line images such as the example fish picture
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{microtype}
+\microtypesetup{protrusion=true} % enables protrusion
+\linespread{1} % Line spacing
+
+\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
+
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+
+\vspace{30 mm}
+
+\textsc{\large Sensor Networks Lab (PR WS14/15) }\\[1cm] % Name of your university/college
+
+%\HRule \\[0.4cm]
+{\huge Lab 2: TinyOS Basics} \\[1cm] % Title of your document
+
+\begin{minipage}{0.5\textwidth}
+\begin{flushleft}
+\center
+Sanjeet Raj \textsc{Pandey}\\
+Sanjay Santhosh \textsc{Kumar}\\
+Muhammad Tauseef \textsc{Khan}\\
+Rajibul Alam \textsc{Khan}\\[2cm]
+
+Supervisor: \\
+Vlado \textsc{Handziski}\\ 
+Tim \textsc{Bormann} \\
+\vspace{30 mm}
+Telecommunication Networks Group\\
+Technical University Berlin\\ 
+
+\end{flushleft}
+\end{minipage} \\[1cm]
+\end{center}
+
+\vspace{30 mm}
+\end{titlepage}
+
+\section*{Excercise 2.1:}
+In this exercise, we are using two timers. Timer0 is 25msec and Timer1 is 1000msec. When Timer0 is fired the led is turned off and when the Timer1 is fired then the led is turned on. In this way, the on time is shorter than the off time since the Timer0 is fired much often than the Timer1.
+
+\section*{Excercise 2.2:}
+The attached zip file contains four files for this exercise, BinCounter is the interface, BinCounterP is the module that that provides the interface BinCounter and BinCountertestP is the module that uses the interface BinCounter. This 3-bit counter runs four times and then stops.
+
+\section*{Excercise 2.3:}
+The LEDs LED1, LED2, LED3 are connected to the pins 48, 49, 50 respectively. The LEDs are connected in series to a resistor so that the current is regulated in the circuit and the microcontroller is protected. When in an application we call the command to turn `ON' and LED the respective pin is made to `0' from its default state of `1'. This is quite clear from the schematic of the board. And when the application calls the command to switch off the LEDs the pin is made (`1') and the LED goes to OFF state.
+
+\section*{Excercise 2.4:}
+There are three main differences between nesC and C programming.
+\begin{enumerate}
+\item nesC uses components and C uses files instead. This makes nesC programming more modular. In the blinkingLED example, both ``BlinkC'' and ``BlinkApp'' are components.
+
+\item Components contain the interfaces that they either provide or use. These interfaces are very different from C interfaces. Interfaces in nesC describe the relationship between different components. An interface declaration consists of one or more functions (commands and events). The implementation of these commands and events depends on whether a component provides that interface or uses that interface. Interfaces simplify the code i.e. many components can use this standard pattern (interface) to interact with other components. It also provides code reuse. In the blinking LED example, the ``BlinkC'' module uses Timer, Boot and Leds interfaces and through these interfaces it utilizes the commands and events that exist in these interfaces.
+
+\item nesC provides wiring to make components interact with each other. This is different from C where the declarations and definitions must have the same name. In the blinking example, the configuration file ``BlinkAppC'' contains the wiring information which is given by ``$\rightarrow$ '' symbol. The wiring information is given below.
+
+\begin{lstlisting}[frame=single]
+BlinkC -> MainC.Boot; 
+BlinkC.Timer0 -> Timer0;
+BlinkC.Timer1 -> Timer1;
+BlinkC.Leds -> LedsC;
+\end{lstlisting}
+It says that BlinkC is connected to the MainC through the Boot interface provided by the MainC. And the BlinckC is further connected to the Timer0, Timer1 and LedsC through the Timer0, Timer1 and Leds interfaces respectively.
+
+\end{enumerate}
+\section*{Excercise 2.5:}
+The reason for such an architecture being used in TinyOS is that
+\begin{enumerate}
+\item It has an extremely small foot print.
+\item It has an extremely low system overhead.
+\item It has extremely low power consumption. The TinyOS architecture is designed in such a way to reduce the memory usage and the system overhead.
+\end{enumerate}
+
+\end{document}
