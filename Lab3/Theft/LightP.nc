@@ -10,7 +10,6 @@ module LightP {
 		interface SplitControl as RadioControl;
 		interface Timer<TMilli> as SensorReadTimer;
 
-		//interface Read<uint16_t> as ReadPar;
 		interface ReadStream<uint16_t> as StreamPar;
 
 		interface ShellCommand as SensitiveCmd;
@@ -23,10 +22,7 @@ module LightP {
 		NUM_SENSORS = 1,
 	};
 
-	bool timerStarted = FALSE;
-	uint8_t m_remaining = NUM_SENSORS;
-	uint32_t m_seq = 0;
-	uint16_t m_par,m_tsr,m_hum,m_temp;
+	
 	uint16_t m_parSamples[SAMPLE_SIZE];
 	uint32_t sensitivity=10;
 	uint16_t sample_period = 10000; //100HZ
@@ -41,7 +37,6 @@ module LightP {
 
 	task void checkStreamPar() {
 		uint8_t i;
-		char temp[8];
 		char *reply_buf = call SensitiveCmd.getBuffer(128);
 		uint32_t avg = 0;
 		uint32_t total=0;
@@ -62,22 +57,17 @@ module LightP {
 				call Leds.led0Off();
 				
 			}
-			//strcat(reply_buf, "Node being stolen\n");
-			//call SensitiveCmd.write(reply_buf, 128);
 		}
 		
 	}
 
 	event void SensorReadTimer.fired() {
-		//call ReadPar.read();
+
 		call StreamPar.postBuffer(m_parSamples, SAMPLE_SIZE);
 		call StreamPar.read(sample_period);
 	}
 
-	/*event void ReadPar.readDone(error_t e, uint16_t data) {
-		m_par = data;
-	}*/
-
+	
 	event void StreamPar.readDone(error_t ok, uint32_t usActualPeriod) {
 		if (ok == SUCCESS) {
 			post checkStreamPar();
