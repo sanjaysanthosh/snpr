@@ -17,18 +17,15 @@ implementation {
 
 	LightP.RadioControl -> IPStackC;
 
-	components new ShellCommandC("read") as ReadCmd;
-	components new ShellCommandC("stream") as StreamCmd;
+
 	components new ShellCommandC("thres") as SensitiveCmd;
-	LightP.ReadCmd -> ReadCmd;
-	LightP.StreamCmd -> StreamCmd;
 	LightP.SensitiveCmd -> SensitiveCmd;
 
 	components new TimerMilliC() as SensorReadTimer;
 	LightP.SensorReadTimer -> SensorReadTimer;
 
 	components new HamamatsuS1087ParC() as SensorPar;
-	LightP.ReadPar -> SensorPar.Read;
+	//LightP.ReadPar -> SensorPar.Read;
 	LightP.StreamPar -> SensorPar.ReadStream;
 
 #ifdef PRINTFUART_ENABLED

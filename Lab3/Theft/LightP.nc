@@ -10,17 +10,15 @@ module LightP {
 		interface SplitControl as RadioControl;
 		interface Timer<TMilli> as SensorReadTimer;
 
-		interface Read<uint16_t> as ReadPar;
+		//interface Read<uint16_t> as ReadPar;
 		interface ReadStream<uint16_t> as StreamPar;
 
-		interface ShellCommand as ReadCmd;
-		interface ShellCommand as StreamCmd;
 		interface ShellCommand as SensitiveCmd;
 	}
 } implementation {
 
 	enum {
-		SAMPLE_RATE = 2000,
+		SAMPLE_RATE = 1000,
 		SAMPLE_SIZE = 10,
 		NUM_SENSORS = 1,
 	};
@@ -44,7 +42,7 @@ module LightP {
 	task void checkStreamPar() {
 		uint8_t i;
 		char temp[8];
-		char *reply_buf = call StreamCmd.getBuffer(128);
+		char *reply_buf = call SensitiveCmd.getBuffer(128);
 		uint32_t avg = 0;
 		uint32_t total=0;
 
@@ -53,11 +51,11 @@ module LightP {
 				total=total+m_parSamples[i];
 			}
 			avg= total/SAMPLE_SIZE;
-			//sprintf(reply_buf, "%ld %d\r\n", avg, sensitivity);
+			sprintf(reply_buf, "%ld %d\r\n", avg, sensitivity);
 			if (avg < sensitivity){
 				call Leds.led0On();
-				strcat(reply_buf, "Node being stolen\n");
-				call StreamCmd.write(reply_buf, 128);
+				sprintf(reply_buf, "Node being stolen [ %d]\r\n",avg);
+				call SensitiveCmd.write(reply_buf, 128);
 
 			}	
 			else{
@@ -65,7 +63,7 @@ module LightP {
 				
 			}
 			//strcat(reply_buf, "Node being stolen\n");
-			call StreamCmd.write(reply_buf, 128);
+			//call SensitiveCmd.write(reply_buf, 128);
 		}
 		
 	}
@@ -76,7 +74,9 @@ module LightP {
 		call StreamPar.read(sample_period);
 	}
 
-	
+	/*event void ReadPar.readDone(error_t e, uint16_t data) {
+		m_par = data;
+	}*/
 
 	event void StreamPar.readDone(error_t ok, uint32_t usActualPeriod) {
 		if (ok == SUCCESS) {
@@ -90,7 +90,6 @@ module LightP {
 	event char* SensitiveCmd.eval(int argc, char* argv[]) {
 		sensitivity= atoi(argv[1]);
 	
-
 	}
 
 	event void RadioControl.startDone(error_t e) {}
