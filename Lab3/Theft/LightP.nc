@@ -24,8 +24,8 @@ module LightP {
 
 	
 	uint16_t m_parSamples[SAMPLE_SIZE];
-	uint32_t sensitivity=10;
-	uint16_t sample_period = 10000; //100HZ
+	uint32_t sensitivity=100;
+	
 
 	event void Boot.booted() {
 		call RadioControl.start();
@@ -37,7 +37,7 @@ module LightP {
 
 	task void checkStreamPar() {
 		uint8_t i;
-		char *reply_buf = call SensitiveCmd.getBuffer(128);
+		char *reply_buf = call SensitiveCmd.getBuffer(50);
 		uint32_t avg = 0;
 		uint32_t total=0;
 
@@ -46,11 +46,11 @@ module LightP {
 				total=total+m_parSamples[i];
 			}
 			avg= total/SAMPLE_SIZE;
-			sprintf(reply_buf, "%ld %d\r\n", avg, sensitivity);
+			//sprintf(reply_buf, "%ld %d\r\n", avg, sensitivity);
 			if (avg < sensitivity){
 				call Leds.led0On();
 				sprintf(reply_buf, "Node being stolen [ %d]\r\n",avg);
-				call SensitiveCmd.write(reply_buf, 128);
+				call SensitiveCmd.write(reply_buf, 50);
 
 			}	
 			else{
@@ -62,7 +62,7 @@ module LightP {
 	}
 
 	event void SensorReadTimer.fired() {
-
+		uint16_t sample_period = 10000; //100HZ
 		call StreamPar.postBuffer(m_parSamples, SAMPLE_SIZE);
 		call StreamPar.read(sample_period);
 	}
