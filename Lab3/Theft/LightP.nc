@@ -37,7 +37,7 @@ module LightP {
 
 	task void checkStreamPar() {
 		uint8_t i;
-		char *reply_buf = call SensitiveCmd.getBuffer(50);
+		char *reply_buf = call SensitiveCmd.getBuffer(30);
 		uint32_t avg = 0;
 		uint32_t total=0;
 
