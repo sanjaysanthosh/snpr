@@ -35,23 +35,11 @@ module LightP {
 
 	event void Boot.booted() {
 		call RadioControl.start();
-		 // us -> 100 Hz
-		// //sprintf(reply_buf, "sampleperiod of %d\n", sample_period);
-		call StreamPar.postBuffer(m_parSamples, SAMPLE_SIZE);
-		call StreamPar.read(sample_period);
+		call SensorReadTimer.startPeriodic(SAMPLE_RATE);
+		
 	}
 
-	error_t checkDone() {
-		int len;
-		char *reply_buf = call ReadCmd.getBuffer(128); 
-		if (--m_remaining == 0) {
-			len = sprintf(reply_buf, "%ld %d %d %d %d\r\n", m_seq, m_par,m_tsr,m_hum,m_temp);
-			m_remaining = NUM_SENSORS;
-			m_seq++;
-			call ReadCmd.write(reply_buf, len);
-		}
-		return SUCCESS;
-	}
+	
 
 	task void checkStreamPar() {
 		uint8_t i;
@@ -62,11 +50,10 @@ module LightP {
 
 		if (reply_buf != NULL) {
 			for (i = 0; i < SAMPLE_SIZE; i++) {
-				//len += sprintf(temp, "%d, ", m_parSamples[i]);
-				//strcat(reply_buf, temp);
 				total=total+m_parSamples[i];
 			}
 			avg= total/SAMPLE_SIZE;
+			//sprintf(reply_buf, "%ld %d\r\n", avg, sensitivity);
 			if (avg < sensitivity){
 				call Leds.led0On();
 				strcat(reply_buf, "Node being stolen\n");
@@ -77,18 +64,19 @@ module LightP {
 				call Leds.led0Off();
 				
 			}
+			//strcat(reply_buf, "Node being stolen\n");
+			call StreamCmd.write(reply_buf, 128);
 		}
 		
 	}
 
 	event void SensorReadTimer.fired() {
-		call ReadPar.read();
+		//call ReadPar.read();
+		call StreamPar.postBuffer(m_parSamples, SAMPLE_SIZE);
+		call StreamPar.read(sample_period);
 	}
 
-	event void ReadPar.readDone(error_t e, uint16_t data) {
-		m_par = data;
-		checkDone();
-	}
+	
 
 	event void StreamPar.readDone(error_t ok, uint32_t usActualPeriod) {
 		if (ok == SUCCESS) {
@@ -98,44 +86,10 @@ module LightP {
 
 	event void StreamPar.bufferDone(error_t ok, uint16_t *buf,uint16_t count) {}
 
-	event char* ReadCmd.eval(int argc, char** argv) {
-		char* reply_buf = call ReadCmd.getBuffer(18);
-		if (timerStarted == FALSE) {
-			strcpy(reply_buf, ">>>Start sampling\n");
-			call SensorReadTimer.startPeriodic(SAMPLE_RATE);
-			timerStarted = TRUE;
-		} else {
-			strcpy(reply_buf, ">>>Stop sampling\n");
-			call SensorReadTimer.stop();
-			timerStarted = FALSE;
-		}
-		return reply_buf;
-	}
-
-	event char* StreamCmd.eval(int argc, char* argv[]) {
-		/*char* reply_buf = call StreamCmd.getBuffer(35);
-		uint16_t sample_period = 10000; // us -> 100 Hz
-		switch (argc) {
-			case 2:
-				sample_period = atoi(argv[1]);
-			case 1: 
-				sprintf(reply_buf, "sampleperiod of %d\n", sample_period);
-				call StreamPar.postBuffer(m_parSamples, SAMPLE_SIZE);
-				call StreamPar.read(sample_period);
-				break;
-			default:
-				strcpy(reply_buf, "Usage: stream <sampleperiod/in us>\n");
-		}
-		return reply_buf;*/
-	}
-
+	
 	event char* SensitiveCmd.eval(int argc, char* argv[]) {
 		sensitivity= atoi(argv[1]);
-		//char* reply_buf = call StreamCmd.getBuffer(35);
-		// uint16_t sample_period = 10000; // us -> 100 Hz
-		// //sprintf(reply_buf, "sampleperiod of %d\n", sample_period);
-		// call StreamPar.postBuffer(m_parSamples, SAMPLE_SIZE);
-		// call StreamPar.read(sample_period);
+	
 
 	}
 

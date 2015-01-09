@@ -19,7 +19,7 @@ implementation {
 
 	components new ShellCommandC("read") as ReadCmd;
 	components new ShellCommandC("stream") as StreamCmd;
-	components new ShellCommandC("sensitivity") as SensitiveCmd;
+	components new ShellCommandC("thres") as SensitiveCmd;
 	LightP.ReadCmd -> ReadCmd;
 	LightP.StreamCmd -> StreamCmd;
 	LightP.SensitiveCmd -> SensitiveCmd;
