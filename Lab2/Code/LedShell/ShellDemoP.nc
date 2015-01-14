@@ -1,5 +1,5 @@
 /*
- *@author: sanjeet raj apndey
+ *@author: sanjeet raj pandey
  * ShellDemoP extended to set leds as binary representation of given number via radio
  */
 #include "blip_printf.h"

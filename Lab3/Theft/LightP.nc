@@ -1,3 +1,9 @@
+/*
+ *@author: sanjeet raj pandey
+ *group 2
+ * sensor theft indication , returns json with status text and value that triggered .
+ * threshold can be set by command thres 123
+ */
 #include <lib6lowpan/ip.h>
 
 #include <Timer.h>
@@ -17,7 +23,7 @@ module LightP {
 } implementation {
 
 	enum {
-		SAMPLE_RATE = 1000,
+		SAMPLE_RATE = 250,
 		SAMPLE_SIZE = 10,
 		NUM_SENSORS = 1,
 	};
@@ -37,7 +43,7 @@ module LightP {
 
 	task void checkStreamPar() {
 		uint8_t i;
-		char *reply_buf = call SensitiveCmd.getBuffer(30);
+		char *reply_buf = call SensitiveCmd.getBuffer(46);
 		uint32_t avg = 0;
 		uint32_t total=0;
 
@@ -46,17 +52,18 @@ module LightP {
 				total=total+m_parSamples[i];
 			}
 			avg= total/SAMPLE_SIZE;
-			//sprintf(reply_buf, "%ld %d\r\n", avg, sensitivity);
+			
 			if (avg < sensitivity){
 				call Leds.led0On();
-				sprintf(reply_buf, "Node being stolen [ %d]\r\n",avg);
-				call SensitiveCmd.write(reply_buf, 50);
+				sprintf(reply_buf, "{\"status\":\"Node was stolen\",\"value\": %d }\0\r\n",avg);
+				call SensitiveCmd.write(reply_buf, 46);
 
 			}	
 			else{
 				call Leds.led0Off();
 				
 			}
+			printf("Data Sent\n");
 		}
 		
 	}
@@ -65,6 +72,7 @@ module LightP {
 		uint16_t sample_period = 10000; //100HZ
 		call StreamPar.postBuffer(m_parSamples, SAMPLE_SIZE);
 		call StreamPar.read(sample_period);
+		printf("Timer Fired\n");
 	}
 
 	
@@ -79,7 +87,6 @@ module LightP {
 	
 	event char* SensitiveCmd.eval(int argc, char* argv[]) {
 		sensitivity= atoi(argv[1]);
-	
 	}
 
 	event void RadioControl.startDone(error_t e) {}

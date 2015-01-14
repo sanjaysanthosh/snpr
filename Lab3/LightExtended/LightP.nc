@@ -1,3 +1,8 @@
+/*
+ *@author: sanjeet raj pandey
+ * group 2
+ * reading rest of the sensors
+ */
 #include <lib6lowpan/ip.h>
 
 #include <Timer.h>

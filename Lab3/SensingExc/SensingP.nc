@@ -1,3 +1,9 @@
+/*
+ *@author: sanjeet raj pandey
+ *group 2
+ * read-par command returns the Light value 
+ */
+
 #include <stdio.h>
 #include <lib6lowpan/ip.h>
 
@@ -45,7 +51,9 @@ module SensingP {
 				//no shadow
 			}
 
-			/*Exercise 3.1*/
+			/*Exercise 3.1
+			 
+			 */
 			len = snprintf(reply_buf, max_reply_len, "[value: %d]\n",val);
 			call ReadParCmd.write(reply_buf,max_reply_len);
 		}

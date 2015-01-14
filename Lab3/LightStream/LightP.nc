@@ -1,3 +1,8 @@
+/*
+ *@author: sanjeet raj pandey
+ *group 2
+ *returning the aggrigated value sampled using stream 
+ */
 #include <lib6lowpan/ip.h>
 
 #include <Timer.h>

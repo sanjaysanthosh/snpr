@@ -1,5 +1,5 @@
 /*
- *@author: sanjeet raj apndey
+ *@author: sanjeet raj pandey
  * Configuration for Binary counter App
  */
 

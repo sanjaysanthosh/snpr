@@ -1,5 +1,5 @@
 /*
- *@author: sanjeet raj apndey
+ *@author: sanjeet raj pandey
  * Bin counter module counts till binary 4 and then signal as well as reset counting
  * One thing to note is Binary is displayed by combination of LED using the interval time sequence
  */

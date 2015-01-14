@@ -1,6 +1,6 @@
 
 /*
- *@author: sanjeet raj apndey
+ *@author: sanjeet raj pandey
  * This is module wired to start on booting , it implements Bincounter to Start and reset on signal 
  */
 #include "Timer.h"
