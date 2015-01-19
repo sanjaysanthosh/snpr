@@ -28,7 +28,7 @@ zapier link is active till jan 25 2015 and tweet can be seen on https://twitter.
 def postTweet(after,data):
     global before
     diff  = math.floor(((after - before).seconds) )
-    if diff > 60 :
+    if diff > 30 :
         before = datetime.datetime.now()
         url = 'https://zapier.com/hooks/catch/n/t30ye/'
         payload = data
@@ -71,7 +71,7 @@ while 1:
     except ValueError, err:
         continue
         #print 'ERROR:', err
-    #print 'Received', repr(data)
+    print 'Received', repr(data)
 
 s.close()
 

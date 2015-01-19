@@ -43,7 +43,7 @@ module LightP {
 
 	task void checkStreamPar() {
 		uint8_t i;
-		char *reply_buf = call SensitiveCmd.getBuffer(50);
+		char *reply_buf = call SensitiveCmd.getBuffer(55);
 		uint32_t avg = 0;
 		uint32_t total=0;
 
@@ -57,13 +57,13 @@ module LightP {
 				call Leds.led0On();
 				/*Theft application modified to send a small json string to respective python Listener. 
 				structure of json is {status:"Node was stolen", value: light_sensor_value}. One can also just 
-				send light value and let python listener as gemerate right message, but just for showing purpose 
-				message is generated right on sensor . Sending instead of status one can add ID of node to get 
+				send light value and let python listener generate right message, but just for showing purpose 
+				message is generated right on sensor. Sending instead of status one can add ID of node to get 
 				exact identify node that is being stolen.
 				once can use CSV format or XML , but for readability and small size json seems to be good choice */
 
 				sprintf(reply_buf, "{\"nodeID\":%d ,\"status\":\"Node was stolen\",\"value\": %d }\0\r\n",TOS_NODE_ID,avg);
-				call SensitiveCmd.write(reply_buf, 506);
+				call SensitiveCmd.write(reply_buf, 55);
 
 			}	
 			else{
