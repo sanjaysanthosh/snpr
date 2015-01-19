@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  19 JAN 2015 22:34
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  19 JAN 2015 23:43
 entering extended mode
  %&-line parsing enabled.
-**Lab2.tex
-(./Lab2.tex
+**Lab4.tex
+(./Lab4.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
 yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
@@ -325,23 +325,23 @@ Package microtype Info: Loading configuration file microtype.cfg.
 
 (/usr/share/texmf-texlive/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2009/03/27 v2.3d microtype main configuration file (RS)
-)) (./Lab2.aux)
-\openout1 = `Lab2.aux'.
+)) (./Lab4.aux)
+\openout1 = `Lab4.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 49.
-LaTeX Font Info:    ... okay on input line 49.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 52.
+LaTeX Font Info:    ... okay on input line 52.
 
 *geometry auto-detecting driver*
 *geometry detected driver: pdftex*
@@ -398,7 +398,7 @@ driver: pdftex
 \everyMPtoPDFconversion=\toks28
 )
 \c@lstlisting=\count126
-Package hyperref Info: Link coloring OFF on input line 49.
+Package hyperref Info: Link coloring OFF on input line 52.
  (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
 Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 
@@ -407,17 +407,17 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
 \c@section@level=\count127
 )
-LaTeX Info: Redefining \ref on input line 49.
-LaTeX Info: Redefining \pageref on input line 49.
- (./Lab2.out)
-(./Lab2.out)
+LaTeX Info: Redefining \ref on input line 52.
+LaTeX Info: Redefining \pageref on input line 52.
+ (./Lab4.out)
+(./Lab4.out)
 \@outlinefile=\write3
-\openout3 = `Lab2.out'.
+\openout3 = `Lab4.out'.
 
 \AtBeginShipoutBox=\box34
-LaTeX Info: Redefining \ref on input line 49.
-LaTeX Info: Redefining \ref on input line 49.
-LaTeX Info: Redefining \microtypecontext on input line 49.
+LaTeX Info: Redefining \ref on input line 52.
+LaTeX Info: Redefining \ref on input line 52.
+LaTeX Info: Redefining \microtypecontext on input line 52.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -441,27 +441,26 @@ X warning (ext4): destination with the same identifier (name{page.1}) has been
 already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.112 
-       [1] [2] (./Lab2.aux) ) 
+l.140 \end{document}
+                     [1] (./Lab4.aux) ) 
 Here is how much of TeX's memory you used:
- 9305 strings out of 493848
- 144790 string characters out of 1152824
- 308743 words of memory out of 3000000
- 12406 multiletter control sequences out of 15000+50000
- 10927 words of font info for 59 fonts, out of 3000000 for 9000
+ 9190 strings out of 493848
+ 143723 string characters out of 1152824
+ 296756 words of memory out of 3000000
+ 12336 multiletter control sequences out of 15000+50000
+ 9935 words of font info for 44 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,8n,49p,781b,1119s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcs
-c10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
-r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fo
-nts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmti12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmtt10.pfb>
-Output written on Lab2.pdf (3 pages, 126318 bytes).
+ 38i,10n,49p,484b,417s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr1
+0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-
+texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/latxfont/lcircle1.pfb>
+Output written on Lab4.pdf (2 pages, 95539 bytes).
 PDF statistics:
- 73 PDF objects out of 1000 (max. 8388607)
- 19 named destinations out of 1000 (max. 500000)
- 13318 words of extra memory for PDF output out of 14400 (max. 10000000)
+ 47 PDF objects out of 1000 (max. 8388607)
+ 4 named destinations out of 1000 (max. 500000)
+ 12806 words of extra memory for PDF output out of 14400 (max. 10000000)
 

@@ -1,0 +1,140 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt]{article} % Default font size is 12pt, it can be changed here
+
+\usepackage[a4paper]{geometry} % Required to change the page size to A4
+
+
+\usepackage[pdftex]{graphicx}
+\usepackage{listings}    
+\lstset{language=C}
+\usepackage{xcolor}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\usepackage{wrapfig} % Allows in-line images such as the example fish picture
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{microtype}
+\microtypesetup{protrusion=true} % enables protrusion
+\linespread{1} % Line spacing
+
+\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
+
+
+
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\lstset{
+	language=C,    
+  	breaklines=true,%default: false
+    basicstyle=\fontsize{10}{10}\ttfamily, %\ttfamily\scriptsize,
+    keywordstyle=\color{red}\sffamily\bfseries,                                                                
+    commentstyle=\itshape\color{purple!40!black}, 
+    identifierstyle=\color{blue},                                 
+    %stringstyle=\rmfamily,     
+    stringstyle=\color{blue!20!black!10!green!10},                                                 
+    showstringspaces=false,%default: true
+    backgroundcolor=\color{white},
+  	breakatwhitespace=false,
+ 	breaklines=true,
+ 	escapeinside={\%*}{*},
+  	%columns=fullflexible,
+  	xleftmargin=3.2pt,
+  	frame=none,%default: none 
+    framerule=0.2pt,%expands outward 
+    rulecolor=\color{red},
+    framesep=3pt,%expands outward
+    %numbers=left,
+}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+
+\vspace{30 mm}
+
+\textsc{\large Sensor Networks Lab (PR WS14/15) }\\[1cm] % Name of your university/college
+
+%\HRule \\[0.4cm]
+{\huge Lab 4: Advanced UDP communication} \\[1cm] % Title of your document
+
+\begin{minipage}{0.5\textwidth}
+\begin{flushleft}
+\center
+Sanjeet Raj \textsc{Pandey} [313631]\\
+Sanjay Santhosh \textsc{Kumar}\\
+Muhammad Tauseef \textsc{Khan} [346301]\\
+Rajibul Alam \textsc{Khan}\\[2cm]
+
+Supervisor: \\
+Vlado \textsc{Handziski}\\ 
+Tim \textsc{Bormann} \\
+\vspace{30 mm}
+\begin{figure}[H]
+ \centering
+ \includegraphics[width=2cm]{logo}
+\end{figure}
+Telecommunication Networks Group\\
+Technical University Berlin\\ \begin{picture}(2,2)
+\put(1,1){\circle*{1}}
+\end{picture}
+\end{flushleft}
+
+\end{minipage} \\[1cm]
+\end{center}
+
+\vspace{30 mm}
+\end{titlepage}
+
+\section*{Excercise 4.3: \textnormal{\large{\textit{Memory Layout} Give an example for a 1-byte, 2-byte and 4-byte
+alignment. Use the following sequence: 16 bit, 16 bit, 8 bit, 32 bit and 16 bit.}}}
+
+\begin{figure}[h]
+\setlength{\unitlength}{0.115in} % selecting unit length
+\centering % used for centering Figure
+\begin{picture}(40,20) % picture environment with the size (dimensions)
+ % 32 length units wide, and 15 units high.
+\put(4.5,19.2) {16 bit}
+%\put(4,19){\color{red}\line(1,0){4}}
+
+\put(8.7,19.2) {16 bit}
+%\put(8,19){\color{green}\line(1.2,0){4}}
+
+\put(13,19.2) {8 bit}
+%\put(12,19){\color{black}\line(1,0){2}}
+
+\put(17.5,19.2) {32 bit}
+%\put(14,19){\color{gray}\line(1,0){8}}
+
+\put(25,19.2) {16 bit}
+%\put(22,19){\color{blue}\line(1,0){4}}
+
+\put(4,16){\colorbox{red!20}{\framebox(2,2){8}\framebox(2,2){8}}\colorbox{green!20}{\framebox(2,2){8}\framebox(2,2){8}}\colorbox{yellow!20}{\framebox(2,2){8}}\colorbox{blue!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}\colorbox{gray!20}{\framebox(2,2){8}\framebox(2,2){8}}}
+
+\put(0,14.3){1 Byte Al.}
+\put(4,13.5){\colorbox{red!20}{\framebox(2,2){8}\framebox(2,2){8}}\colorbox{green!20}{\framebox(2,2){8}\framebox(2,2){8}}\colorbox{yellow!20}{\framebox(2,2){8}}\colorbox{blue!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}\colorbox{gray!20}{\framebox(2,2){8}\framebox(2,2){8}}}
+
+\put(0,11.8){2 Byte Al.}
+\put(4,11.0){\colorbox{red!20}{\framebox(2,2){8}\framebox(2,2){8}}\colorbox{green!20}{\framebox(2,2){8}\framebox(2,2){8}}\colorbox{yellow!20}{\framebox(2,2){8}\framebox(2,2){8}}\colorbox{blue!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}\colorbox{gray!20}{\framebox(2,2){8}\framebox(2,2){8}}}
+
+\put(0,8.9){4 Byte Al.}
+\put(4,8.5){\colorbox{red!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}\colorbox{green!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}\colorbox{yellow!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}\colorbox{blue!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}\colorbox{gray!20}{\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}\framebox(2,2){8}}}
+
+\end{picture}
+\caption{Alignment in General way for 16,16,8,32,16 bits arrangement}
+\end{figure}
+
+As we can see from diagram how alignment can get in problem if not kept consistent and memory must me mapped correctly. In diagram above is shown memory arrangement needed but endiness will effect while saving on these allocated memory . It could be most significant bit first or least significant first depending on arctecture .
+
+\end{document}
