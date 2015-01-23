@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  19 JAN 2015 23:43
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  21 JAN 2015 23:03
 entering extended mode
  %&-line parsing enabled.
 **Lab4.tex
@@ -441,14 +441,14 @@ X warning (ext4): destination with the same identifier (name{page.1}) has been
 already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.140 \end{document}
+l.154 \end{document}
                      [1] (./Lab4.aux) ) 
 Here is how much of TeX's memory you used:
- 9190 strings out of 493848
- 143723 string characters out of 1152824
- 296756 words of memory out of 3000000
+ 9203 strings out of 493848
+ 143825 string characters out of 1152824
+ 299756 words of memory out of 3000000
  12336 multiletter control sequences out of 15000+50000
- 9935 words of font info for 44 fonts, out of 3000000 for 9000
+ 10295 words of font info for 50 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  38i,10n,49p,484b,417s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/pu
@@ -458,9 +458,9 @@ ts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr1
 share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-
 texlive/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-texlive/fon
 ts/type1/public/amsfonts/latxfont/lcircle1.pfb>
-Output written on Lab4.pdf (2 pages, 95539 bytes).
+Output written on Lab4.pdf (2 pages, 100830 bytes).
 PDF statistics:
- 47 PDF objects out of 1000 (max. 8388607)
- 4 named destinations out of 1000 (max. 500000)
+ 48 PDF objects out of 1000 (max. 8388607)
+ 5 named destinations out of 1000 (max. 500000)
  12806 words of extra memory for PDF output out of 14400 (max. 10000000)
 

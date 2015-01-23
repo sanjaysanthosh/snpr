@@ -47,6 +47,7 @@ module EchoP {
 			but sending to network does not aligns it in little endian as TelosB is based on little endian.
 			So we use htonl to convert little endian into host order which is big endian. */
 			i = htonl(atoi(str));
+			//i=atoi(str);
 			call Echo.sendto(from, &i , sizeof(uint32_t));
 		} else { 
 			call Echo.sendto(from, data, len);

@@ -97,6 +97,17 @@ Technical University Berlin\\ \begin{picture}(2,2)
 \vspace{30 mm}
 \end{titlepage}
 
+\section*{Excercise 4.1: \textnormal{\large{\textit{Echo and integers} Repeat the instructions from the beginning
+of the chapter and again try to enter a word and numbers. You will see that
+the numbers will not be displayed properly, because netcat will interpret them as
+characters, not as numbers.}}}
+
+Entered digit is sent as ASCII code and in big endian order e.g 6 is sent as 360a
+while returning it via ECHO code as integer 06000000 shows in wireshark. 
+While after converting digit from host to network order digit is sent as 00000006.
+One can see how endiness gets swapped while sending integers not to forget UDP network protocol is based on big-endian.
+
+
 \section*{Excercise 4.3: \textnormal{\large{\textit{Memory Layout} Give an example for a 1-byte, 2-byte and 4-byte
 alignment. Use the following sequence: 16 bit, 16 bit, 8 bit, 32 bit and 16 bit.}}}
 
@@ -135,6 +146,9 @@ alignment. Use the following sequence: 16 bit, 16 bit, 8 bit, 32 bit and 16 bit.
 \caption{Alignment in General way for 16,16,8,32,16 bits arrangement}
 \end{figure}
 
-As we can see from diagram how alignment can get in problem if not kept consistent and memory must me mapped correctly. In diagram above is shown memory arrangement needed but endiness will effect while saving on these allocated memory . It could be most significant bit first or least significant first depending on arctecture .
+Memory alignment must always be taken care of during lower level programming. Depending on the architectures its can have different byte alignment system as in our example we are checkign for 1 byte, 2 byte and 4 byte alignment. 
+As for 1 byte alignment every 8 bit is read one after another. But for 2 byte alignment third block with 8 bit makes reading next byte unaligned so padding of 1 byte is added depending on big endian after 8 bit cell or for little endian before 8 bit cell. 
+In 4 byte alignment 1st two 16 bit cell and last 16 bit cell gets padded with 2 more byte as well as 8 bit cell on third gets padded with 3 more byte also respect to endianess of system. 
+
 
 \end{document}
