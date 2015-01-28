@@ -41,4 +41,7 @@ configuration SensingC {
 	components new TimerMilliC() as BlinkTimer;
 	SensingP.BlinkTimer -> BlinkTimer;
 
+	components new TimerMilliC() as RequestTimer;
+	SensingP.RequestTimer -> RequestTimer;
+
 }

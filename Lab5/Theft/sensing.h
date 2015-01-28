@@ -29,7 +29,7 @@ nx_struct theft_report{
 	nx_uint16_t who;
 };
 
-#define REPORT_DEST "fec0::100" //100
+#define REPORT_DEST "fec0::100" //not used since we multicast all information 
 #define MULTICAST "ff02::1"
 
 #endif

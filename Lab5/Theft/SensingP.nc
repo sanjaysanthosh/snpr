@@ -1,3 +1,27 @@
+/*
+ *@author: sanjeet raj pandey
+ *Group 2
+ *This codes add a lot of sub questions as well as few thigs we added ourself.
+ Excercise 5.3
+1. In sessing.h new struct added for sensor periodic sampling settings , configuration and theft information.
+2. Added default setting for SAMPLE_TIME, SAMPLE_PERIOD, SAMPLE_THRESHOLD and  REQUEST_TIMER_INTERVAL
+3. As node sender and who  TOS_NODE_ID is added .
+4. Theft report is sent via 7000 port using the report_sensor task in case threashold condition is filled
+5. Settings report is sent via 4000 port as well as recieve configuration for this these things are checked
+	a. If SETTINGS_USER is set in recieved configuration packet , its just saved locally.
+	b. If current node configuration is changed via shell, saveConfigurationAndSend , 
+		Sensor sampling is restarted using new configuration as well.
+		Its multicasted vis 4000 and type is set to SETTINGS_USER.
+	c. If new node with SETTINGS_REQUEST type is recieved then sendConfiguration task sends the current setting configuration 
+		with SETTINGS_RESPONSE as type to port 4000 on multicast address.
+	d. Settings.recvfrom also accepts the configuration from another node , current node being new to network, and saves in 
+		configuration. Sensor sampling is restarted using new configuration as well.
+ 6. We have also added behaviour of new node as such
+ 	a. after booting askForConfiguration() is posted asking for new configuration from existing network if it exists.
+ 	b. RequestTimer is one shot timer added for time span where Nodes reply is listened and saved .
+ 	c. In case RequestTimer is over it sets default setting from the enum from implementation.
+ */
+
 #include <lib6lowpan/ip.h>
 #include <Timer.h>
 #include "sensing.h"
@@ -23,6 +47,8 @@ module SensingP {
 
 		interface Timer<TMilli> as BlinkTimer;
 
+		interface Timer<TMilli> as RequestTimer;
+
 	}
 } implementation {
 
@@ -31,6 +57,7 @@ module SensingP {
 			SAMPLE_THRESHOLD = 5,
 			SAMPLE_TIME= 250,
 			SAMPLE_PERIOD = 10000,
+			REQUEST_TIMER_INTERVAL = 10000,
 		};
 		
 		/*Settings for sensor and sampling as well as threashold ***/
@@ -44,6 +71,16 @@ module SensingP {
 		uint16_t m_parSamples[SAMPLE_SIZE];
 		uint8_t newnumer;
 		bool toggle = FALSE;
+		uint8_t number_of_request = 3;
+
+
+		task void askForConfiguration(){
+			stats.sender = TOS_NODE_ID;
+			stats.type= SETTINGS_REQUEST;
+			//stats.settings = NULL;
+			call Settings.sendto(&multicast, &stats, sizeof(stats));
+		}
+
 
 		event void Boot.booted() {
 
@@ -61,28 +98,23 @@ module SensingP {
 
 		event void RadioControl.startDone(error_t e) {
 
-			/******Initialize with default data******/
-			settings.threshold = SAMPLE_THRESHOLD;
-			settings.sample_time = SAMPLE_TIME;
-			settings.sample_period = SAMPLE_PERIOD; //every 10 seconds
 
-			/*Start sampling sensor*/
-			call SensorReadTimer.startPeriodic(settings.sample_period);
+			/*Ask exisisting network for setting*/
+			post askForConfiguration();
+			/**Wait for while to get reply**/
+			call RequestTimer.startOneShot(REQUEST_TIMER_INTERVAL);
+
 		}
 		event void RadioControl.stopDone(error_t e) {}
 
 		event void ConfigMount.mountDone(error_t e) {
 		if (e != SUCCESS) {
-			call Leds.led0On();
+			//call Leds.led0On();
 			call RadioControl.start();
 		} else {
 				if (call ConfigStorage.valid()) {
 					call ConfigStorage.read(0, &settings, sizeof(settings_t));
 				} else {
-					settings.threshold = SAMPLE_THRESHOLD;
-					settings.sample_time =SAMPLE_TIME;
-					settings.sample_period = SAMPLE_PERIOD;
-
 					call RadioControl.start();
 				}
 			}
@@ -100,7 +132,7 @@ module SensingP {
 
 		//udp interfaces
 		event void LightSend.recvfrom(struct sockaddr_in6 *from, void *data, uint16_t len, struct ip6_metadata *meta) {
-			//TODO: Start LED with node iD 
+			
 			memcpy(&theftnode, data, sizeof(theftnode));
 			/*being node 2 just set led light ,  and blink if id is over 7 blinking */
 			if(theftnode.who <=7 ){
@@ -111,7 +143,25 @@ module SensingP {
 				call BlinkTimer.startPeriodic( 1000 );
 			}
 		}
+		/**REQUEST TIMEOUT****/
+		event void RequestTimer.fired(){
+			/* set default setting if stat type is still SETTINGS_REQUEST*/
+			if(stats.type == SETTINGS_REQUEST){	
+				
+				/******Initialize with default data******/
+				settings.threshold = SAMPLE_THRESHOLD;
+				settings.sample_time = SAMPLE_TIME;
+				settings.sample_period = SAMPLE_PERIOD; //every 10 seconds
 
+				/*Start sampling sensor*/
+				call SensorReadTimer.startPeriodic(settings.sample_period);
+
+			}else{
+				
+				/*****Setting recieved from neighbour node********/
+				call SensorReadTimer.startPeriodic(settings.sample_period);
+			}
+		}
 
 		event void BlinkTimer.fired(){
 			if(!toggle){
@@ -138,7 +188,6 @@ module SensingP {
 			
 			uint32_t avg = 0;
 			uint32_t total=0;
-
 			
 			for (i = 0; i < SAMPLE_SIZE; i++) {
 				total=total+m_parSamples[i];
@@ -150,8 +199,7 @@ module SensingP {
 				post report_sensor();
 			}	
 			else{
-				//call Leds.led0Off();
-				
+				//call Leds.led0Off();		
 			}
 			printf("Data Sent\n");			
 		}
@@ -171,6 +219,7 @@ module SensingP {
 				post checkStreamPar();
 			}
 		}
+
 		event void StreamPar.bufferDone(error_t ok, uint16_t *buf,uint16_t count) {}
 
 
@@ -185,8 +234,9 @@ module SensingP {
 
 		/********TASK saves configuration recieved from other*********/
 		task void saveConfiguration(){
-
 			call ConfigStorage.write(0, &settings, sizeof(settings));
+			/*save configuration and restart sensor sampling with new configuration*/
+			call SensorReadTimer.startPeriodic(settings.sample_period);
 		}
 
 		task void saveConfigurationAndSend(){
@@ -209,7 +259,6 @@ module SensingP {
 				new setting request while joining network
 			*/
 			if(stats.type == SETTINGS_USER || stats.type == SETTINGS_RESPONSE){
-				//call Leds.led0Off();
 				
 				settings.threshold = stats.settings.threshold;
 				settings.sample_time = stats.settings.sample_time;

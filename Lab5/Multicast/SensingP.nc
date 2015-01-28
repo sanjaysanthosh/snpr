@@ -1,3 +1,11 @@
+/*
+ *@author: sanjeet raj pandey
+ *group 2
+ * Nothing much is changed as from repo , except calling for all nodes can be called using IP multicast address
+ * FF02::1 and routers can be called using FF02::2
+ * Excercise 5.1
+ */
+
 #include <lib6lowpan/ip.h>
 #include "sensing.h"
 #include "blip_printf.h"

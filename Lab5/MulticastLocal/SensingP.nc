@@ -1,3 +1,10 @@
+/*
+ *@author: sanjeet raj pandey
+ *Group 2
+ * configuration setting local added when parameter 'local' is added at end of command in UDPShell 
+ * Excercise 5.2
+ */
+
 #include <lib6lowpan/ip.h>
 #include "sensing.h"
 #include "blip_printf.h"
@@ -146,6 +153,7 @@ module SensingP {
 					strcpy(ret,"Usage: set per|th [<sampleperiod in ms>|<threshold>]\n");
 				}
 			} else if(argc == 4){
+				/*check for 1 more parameter and post task that saves configuration locally */
 				if(!strcmp("local",argv[3])){
 					if (!strcmp("per",argv[1])) {
 						settings.voltage_period = atoi(argv[2]);
