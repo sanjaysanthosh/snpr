@@ -55,9 +55,9 @@ module SensingP {
 		enum {
 			SAMPLE_SIZE = 10,
 			SAMPLE_THRESHOLD = 5,
-			SAMPLE_TIME= 250,
+			SAMPLE_TIME= 256,
 			SAMPLE_PERIOD = 10000,
-			REQUEST_TIMER_INTERVAL = 10000,
+			REQUEST_TIMER_INTERVAL = 5000,
 		};
 		
 		/*Settings for sensor and sampling as well as threashold ***/

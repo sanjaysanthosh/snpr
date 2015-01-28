@@ -1,5 +1,6 @@
 COMPONENT=SensingC
 
+#shared channel provided in LAB
 CFLAGS += -DCC2420_DEF_CHANNEL=26
 #$(TOS_CHANNEL)
 

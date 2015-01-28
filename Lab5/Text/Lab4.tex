@@ -1,0 +1,143 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt]{article} % Default font size is 12pt, it can be changed here
+
+\usepackage[a4paper]{geometry} % Required to change the page size to A4
+
+
+\usepackage[pdftex]{graphicx}
+\usepackage{listings}    
+\lstset{language=C}
+\usepackage{xcolor}
+\usepackage{float} % Allows putting an [H] in \begin{figure} to specify the exact location of the figure
+\usepackage{wrapfig} % Allows in-line images such as the example fish picture
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{microtype}
+\microtypesetup{protrusion=true} % enables protrusion
+\linespread{1} % Line spacing
+
+\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
+
+
+
+\graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
+
+\lstset{
+	language=C,    
+  	breaklines=true,%default: false
+    basicstyle=\fontsize{10}{10}\ttfamily, %\ttfamily\scriptsize,
+    keywordstyle=\color{red}\sffamily\bfseries,                                                                
+    commentstyle=\itshape\color{purple!40!black}, 
+    identifierstyle=\color{blue},                                 
+    %stringstyle=\rmfamily,     
+    stringstyle=\color{blue!20!black!10!green!10},                                                 
+    showstringspaces=false,%default: true
+    backgroundcolor=\color{white},
+  	breakatwhitespace=false,
+ 	breaklines=true,
+ 	escapeinside={\%*}{*},
+  	%columns=fullflexible,
+  	xleftmargin=3.2pt,
+  	frame=none,%default: none 
+    framerule=0.2pt,%expands outward 
+    rulecolor=\color{red},
+    framesep=3pt,%expands outward
+    %numbers=left,
+}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+\begin{center}
+
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+
+\vspace{30 mm}
+
+\textsc{\large Sensor Networks Lab (PR WS14/15) }\\[1cm] % Name of your university/college
+
+%\HRule \\[0.4cm]
+{\huge Lab 5: IPv6 Multicast} \\[1cm] % Title of your document
+
+\begin{minipage}{0.5\textwidth}
+\begin{flushleft}
+\center
+Sanjeet Raj \textsc{Pandey} [313631]\\
+Sanjay Santhosh \textsc{Kumar}\\
+Muhammad Tauseef \textsc{Khan} [346301]\\
+Rajibul \textsc{Alam}\\[2cm]
+
+Supervisor: \\
+Vlado \textsc{Handziski}\\ 
+Tim \textsc{Bormann} \\
+\vspace{30 mm}
+\begin{figure}[H]
+ \centering
+ \includegraphics[width=2cm]{logo}
+\end{figure}
+Telecommunication Networks Group\\
+Technical University Berlin\\ \begin{picture}(2,2)
+\put(1,1){\circle*{1}}
+\end{picture}
+\end{flushleft}
+
+\end{minipage} \\[1cm]
+\end{center}
+
+\vspace{30 mm}
+\end{titlepage}
+
+\section*{Excercise 5.1: \textnormal{\large{\textit{Link Local Multicast} Can all nodes be addressed using the link
+local multicast or has a special message to be sent in order to address the “router”? }}}
+
+We use FF02::1 as multicast address for all nodes connected to Router and for router we used FF02::2 as specified in \textit{rfc4291} page 15.
+In this experiment we got all nodes reply as Motes are configured as routing device as well.  
+
+
+\section*{Excercise 5.2: \textnormal{\large{\textit{Local setting changes} Extend the set command to allow an additional
+option local, so that the changes are only saved locally and no multicast
+message is sent out. Example: \\
+\textbf{set th 3000 local} }}}
+
+In this application we have appended shell set command with parsing of one more argument ``local´´ and post a task \textit{ report\_settings\_local() } which saves saves the configuration but does not brodcast to neighbour nodes.
+
+\section*{Excercise 5.3: \textnormal{\large{\textit{Theft Application} }}}
+This application has been made with different small blocks. 
+\subsection*{New Node Action}
+\begin{enumerate}
+\item After booting askForConfiguration() task is posted asking for new configuration from existing network if it exists.It sends settings\textunderscore report with type SETTINGS\textunderscore REQUEST .
+\item RequestTimer is one shot timer added for time span where Nodes reply is listened and if replied packet has settings\textunderscore report type SETTINGS\textunderscore RESPONSE then its saved and per sensor sampling is started .
+\item In case RequestTimer is over it sets default setting from the enum from implementation.
+\end{enumerate}
+\subsection*{Settings Exchange for existing nodes}
+Settings report is sent via 4000 port as well as recieve configuration for this these things are checked
+\begin{enumerate}
+\item If SETTINGS\textunderscore USER is set in recieved configuration packet , its just saved locally.
+\item If current node configuration is changed via shell, saveConfigurationAndSend , 
+		Sensor sampling is restarted using new configuration as well.
+		Its multicasted vis 4000 and type is set to SETTINGS\textunderscore USER.
+\item If new node with SETTINGS\textunderscore REQUEST type is recieved then sendConfiguration task sends the current setting configuration 
+		with SETTINGS\textunderscore RESPONSE as type to port 4000 on multicast address.
+\item Settings.recvfrom also accepts the configuration from another node , current node being new to network, and saves in 
+		configuration. Sensor sampling is restarted using new configuration as well.
+
+\end{enumerate}
+
+\subsection*{Node Theft}
+Theft report is sent via 7000 port using the report\textunderscore sensor task in case threshold condition is filled
+\begin{enumerate}
+\item Node sets its TOS\textunderscore NODE\textunderscore ID in theft\textunderscore report.who and sends it to multicast address FF02::1 on port 7000.
+\item Recieving nodes lights up recieving id on led as binary code and if its above 7 it starts same number in blinking .
+\end{enumerate}
+
+\end{document}
