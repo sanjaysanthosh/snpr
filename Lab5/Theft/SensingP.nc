@@ -15,8 +15,6 @@ module SensingP {
 		interface ShellCommand as GetCmd;
 		interface ShellCommand as SetCmd;
 
-		
-
 		interface Mount as ConfigMount;
 		interface ConfigStorage;
 
@@ -30,11 +28,12 @@ module SensingP {
 
 		enum {
 			SAMPLE_SIZE = 10,
-			SAMPLE_THRESHOLD = 10,
-			SAMPLE_TIME= 260,
+			SAMPLE_THRESHOLD = 5,
+			SAMPLE_TIME= 250,
 			SAMPLE_PERIOD = 10000,
 		};
-		//theft_report
+		
+		/*Settings for sensor and sampling as well as threashold ***/
 		settings_t settings;
 		nx_struct theft_report theftnode;
 		
@@ -47,12 +46,6 @@ module SensingP {
 		bool toggle = FALSE;
 
 		event void Boot.booted() {
-
-			/*default settings*/
-			settings.threshold = SAMPLE_THRESHOLD;
-			settings.sample_time = SAMPLE_TIME;
-			settings.sample_period = SAMPLE_PERIOD; //every 10 seconds
-
 
 
 			route_dest.sin6_port = htons(7000);
@@ -68,11 +61,12 @@ module SensingP {
 
 		event void RadioControl.startDone(error_t e) {
 
-			/******Some conflict here happened ******/
+			/******Initialize with default data******/
 			settings.threshold = SAMPLE_THRESHOLD;
 			settings.sample_time = SAMPLE_TIME;
 			settings.sample_period = SAMPLE_PERIOD; //every 10 seconds
-			//printf("settings.sample_period : %d\n",settings.sample_period);
+
+			/*Start sampling sensor*/
 			call SensorReadTimer.startPeriodic(settings.sample_period);
 		}
 		event void RadioControl.stopDone(error_t e) {}
@@ -83,7 +77,7 @@ module SensingP {
 			call RadioControl.start();
 		} else {
 				if (call ConfigStorage.valid()) {
-					call ConfigStorage.read(0, &settings, sizeof(settings));
+					call ConfigStorage.read(0, &settings, sizeof(settings_t));
 				} else {
 					settings.threshold = SAMPLE_THRESHOLD;
 					settings.sample_time =SAMPLE_TIME;
@@ -152,15 +146,14 @@ module SensingP {
 			avg= total/SAMPLE_SIZE;
 			
 			if (avg < settings.threshold){
-				call Leds.led0On();
+				//call Leds.led0On();
 				post report_sensor();
 			}	
 			else{
-				call Leds.led0Off();
+				//call Leds.led0Off();
 				
 			}
-			printf("Data Sent\n");		
-			
+			printf("Data Sent\n");			
 		}
 
 		
@@ -181,34 +174,59 @@ module SensingP {
 		event void StreamPar.bufferDone(error_t ok, uint16_t *buf,uint16_t count) {}
 
 
-		/*******************************/
 
+		/*Task to send current configuration to new node*/
+		task void sendConfiguration(){
+			stats.sender = TOS_NODE_ID;
+			stats.type= SETTINGS_RESPONSE;
+			stats.settings = settings;
+			call Settings.sendto(&multicast, &stats, sizeof(stats));
+		}
 
-		/*******Receive Setting from broadcast*******/
-
+		/********TASK saves configuration recieved from other*********/
 		task void saveConfiguration(){
+
 			call ConfigStorage.write(0, &settings, sizeof(settings));
 		}
 
 		task void saveConfigurationAndSend(){
-			call ConfigStorage.write(0, &settings, sizeof(settings));
 			
+			call ConfigStorage.write(0, &settings, sizeof(settings));
+			stats.type= SETTINGS_USER;
+			stats.settings = settings;
+			
+			
+			call Settings.sendto(&multicast, &stats, sizeof(stats));
+			/******Restart sampler timer with new configuration*******/
+			call SensorReadTimer.startPeriodic(settings.sample_period);
+
 		}
 
 		event void Settings.recvfrom(struct sockaddr_in6 *from, void *data, uint16_t len, struct ip6_metadata *meta) {
 			memcpy(&stats, data, sizeof(stats));
-			/**check for SETTINGS_USER*/
-			if(stats.type == SETTINGS_USER){
+			
+			/*	Save Setting coming from multicast SETTINGS_USER or on responce of 
+				new setting request while joining network
+			*/
+			if(stats.type == SETTINGS_USER || stats.type == SETTINGS_RESPONSE){
+				//call Leds.led0Off();
+				
 				settings.threshold = stats.settings.threshold;
 				settings.sample_time = stats.settings.sample_time;
 				settings.sample_period = stats.settings.sample_period;
 				post saveConfiguration();
+			}else if(stats.type == SETTINGS_REQUEST){
+				post sendConfiguration();
 			}
 		}
 
 
 
+
 		/********************************************/
+	
+		
+
 		//udp shell
 
 		event char *GetCmd.eval(int argc, char **argv) {
@@ -216,7 +234,7 @@ module SensingP {
 			if (ret != NULL) {
 				switch (argc) {
 					case 1:
-						sprintf(ret, "\t[Period: %u]\n\t[Threshold: %u]\n", settings.sample_period, settings.threshold);
+						sprintf(ret, "\t[Threshold: %u]\n\t[Period: %u]\n", settings.threshold,settings.sample_period);
 						break;
 					case 2: 
 						if (!strcmp("per",argv[1])) {
@@ -234,6 +252,7 @@ module SensingP {
 			return ret;
 		}
 
+		
 
 		event char *SetCmd.eval(int argc, char **argv) {
 			char *ret = call SetCmd.getBuffer(40);
@@ -241,14 +260,14 @@ module SensingP {
 				if (argc == 3) { 
 					if (!strcmp("per",argv[1])) {
 						settings.sample_period = atoi(argv[2]);
-						sprintf(ret, ">>>Period changed to %u\n",settings.sample_period);
-						/*Save locally*/
+						sprintf(ret, ">>>Period changed to %u and sent\n",settings.sample_period);
 						post saveConfigurationAndSend();
+						
 					} else if (!strcmp("th", argv[1])) {
 						settings.threshold = atoi(argv[2]);
-						sprintf(ret, ">>>Threshold changed to %u\n",settings.threshold);
-						/*Save locally*/
+						sprintf(ret, ">>>Threshold changed to %u and sent\n",settings.threshold);
 						post saveConfigurationAndSend();
+
 					} else {
 						strcpy(ret,"Usage: set per|th [<sampleperiod in ms>|<threshold>]\n");
 					}
@@ -258,6 +277,7 @@ module SensingP {
 			}
 			return ret;
 		}
+
 
 
 }

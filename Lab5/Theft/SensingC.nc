@@ -31,7 +31,6 @@ configuration SensingC {
 	SensingP.SensorReadTimer -> SensorReadTimer;
 
 	components new HamamatsuS1087ParC() as SensorPar;
-	//SensingP.Light -> SensorPar.Read;
 	SensingP.StreamPar -> SensorPar.ReadStream;
 
 
@@ -42,5 +41,4 @@ configuration SensingC {
 	components new TimerMilliC() as BlinkTimer;
 	SensingP.BlinkTimer -> BlinkTimer;
 
-	//components SerialPrintfC;
 }
