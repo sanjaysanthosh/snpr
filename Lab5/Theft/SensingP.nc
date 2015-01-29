@@ -98,7 +98,7 @@ module SensingP {
 
 		event void RadioControl.startDone(error_t e) {
 
-
+			call Leds.set(7);
 			/*Ask exisisting network for setting*/
 			post askForConfiguration();
 			/**Wait for while to get reply**/
@@ -155,12 +155,15 @@ module SensingP {
 
 				/*Start sampling sensor*/
 				call SensorReadTimer.startPeriodic(settings.sample_period);
+				call Leds.set(1);
 
 			}else{
 				
 				/*****Setting recieved from neighbour node********/
 				call SensorReadTimer.startPeriodic(settings.sample_period);
+				call Leds.set(2);
 			}
+
 		}
 
 		event void BlinkTimer.fired(){
