@@ -3,6 +3,7 @@
 #include <mem.h>
 #include <ctype.h>
 #include <resource.h>
+#include <stdio.h>
 
 
 generic module CoapButtonCounterResourceP(uint8_t uri_key) {
@@ -50,18 +51,17 @@ generic module CoapButtonCounterResourceP(uint8_t uri_key) {
             coap_free(temp_resource->data);
         }
         if ((temp_resource->data = (uint8_t *) coap_malloc(sizeof(countButtonPressed))) != NULL) {
-         
-          memcpy(temp_resource->data, countButtonPressed, sizeof(countButtonPressed));
-          temp_resource->data_len = sizeof(countButtonPressed);
+          
+          char str[8];
+          int datalen = 0;
+          datalen= snprintf(str, sizeof(str), "%i", countButtonPressed);
+          memcpy(temp_resource->data, str, datalen);
+          temp_resource->data_len = datalen;
           temp_resource->data_ct = temp_content_format;
         }
-        //temp_resource->data= &countButtonPressed;
+        
         signal CoapResource.notifyObservers();
-         signal CoapResource.methodDone(SUCCESS,
-           temp_async_state,
-           temp_request,
-           response,
-           temp_resource);
+
       }
      
     } else if ( state == BUTTON_RELEASED ) {
@@ -89,23 +89,7 @@ generic module CoapButtonCounterResourceP(uint8_t uri_key) {
     if (temp_async_state->flags & COAP_ASYNC_OBSERVED){
         
         observeState = !observeState;
-          /*if(observeState){
-            observeState= FALSE;
-            
-            //temp_resource->dirty = 1;
-          }
-          else{
-            observeState = TRUE;
-            //coap_add_option(response, COAP_OPTION_SUBSCRIPTION, 0, NULL);
-            //temp_resource->dirty = 0;
-          }
-
-
-          //
-          //temp_resource->dirty = 1;
-          //temp_resource->data= 5; //ASCII chars
-          */
-        
+         
     }
     #endif
     
