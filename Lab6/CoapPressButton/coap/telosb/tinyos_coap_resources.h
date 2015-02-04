@@ -98,6 +98,8 @@ index_uri_key_t uri_index_map[COAP_LAST_RESOURCE] = {
       0
   },
 #endif
+//define new Button Press counter resource with uri path counter
+// it supports GET and PUT method 
 #ifdef COAP_RESOURCE_BUTTON_COUNTER
   {
       INDEX_BUTTON_COUNTER,

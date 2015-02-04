@@ -34,6 +34,7 @@ CFLAGS += -DWITHOUT_BLOCK
 
 # lab session demo resources
 #CFLAGS += -DCOAP_RESOURCE_BASE_LEDS
+#new resource decleration for Application
 CFLAGS += -DCOAP_RESOURCE_BUTTON_COUNTER
 # stock resources that fit on telosb
 #CFLAGS += -DCOAP_RESOURCE_TEMP

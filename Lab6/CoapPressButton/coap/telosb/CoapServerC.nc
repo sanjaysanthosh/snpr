@@ -58,7 +58,7 @@ configuration CoapServerC {
   CoapBaseLedResource.Leds -> LedsC;
   CoapUdpServerC.CoapResource[INDEX_BASE_LEDS]  -> CoapBaseLedResource.CoapResource;
 #endif
-
+//if Button press counter resource gets decleared , this new componenets get enabled
 #ifdef COAP_RESOURCE_BUTTON_COUNTER
   components new CoapButtonCounterResourceC(INDEX_BUTTON_COUNTER) as CoapButtonCounterResource;
   //CoapButtonCounterResource.Leds -> LedsC;

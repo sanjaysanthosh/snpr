@@ -1,3 +1,7 @@
+/*
+ *@author: sanjeet raj pandey
+ *Group 2
+ */
 #include <UserButton.h>
 generic configuration CoapButtonCounterResourceC(uint8_t uri_key) {
     provides interface CoapResource;

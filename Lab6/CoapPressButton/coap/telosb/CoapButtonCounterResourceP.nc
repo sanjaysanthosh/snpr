@@ -1,3 +1,7 @@
+/*
+ *@author: sanjeet raj pandey
+ *Group 2
+ */
 #include <pdu.h>
 #include <async.h>
 #include <mem.h>
@@ -5,6 +9,33 @@
 #include <resource.h>
 #include <stdio.h>
 
+/*
+Get method in below code just reads the current countButtonPressed and sends to node that requested it.
+wehereas Its notify event that does the counting . Exercise 6.1 and Exercise 6.2 is combined here .
+Exercise 6.1:
+  1.  uint16_t val = countButtonPressed;
+      datalen= snprintf(databuf, sizeof(databuf), "%i", val);
+      These two lines does the GET part , and not to forget GET is allowed method .
+  2.  coap_get_data(temp_request,sizeof(uint16_t) , &data);
+      countButtonPressed=atoi(data);
+      These two lines are used to get PUT value , typecast to uint16_t and save as new count value.
+Exercise 6.2:
+  In get method we have made Observer toggle as while observer is active GET must be desabled. 
+  #ifndef WITHOUT_OBSERVE
+    if (temp_async_state->flags & COAP_ASYNC_OBSERVED){
+        
+        observeState = !observeState;
+         
+  }
+  #endif
+
+  on the other side in Notify.notify event we added check for observeState check and if set its TRUE
+  it sets temp_resource->dirty = 1; in new temp_resource pdu , adds the new count in temp_resource.data .
+  Its lets observers notify after that. 
+
+  Toggling behaviour can be seen via Coapper plugin in firefox , once observe will enable and again click will desable it.
+    
+*/
 
 generic module CoapButtonCounterResourceP(uint8_t uri_key) {
   provides interface CoapResource;

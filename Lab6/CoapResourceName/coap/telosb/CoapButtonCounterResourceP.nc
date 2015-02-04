@@ -1,9 +1,19 @@
+/*
+ *@author: sanjeet raj pandey
+ *Group 2
+ */
 #include <pdu.h>
 #include <async.h>
 #include <mem.h>
 #include <ctype.h>
 #include <resource.h>
 #include <stdio.h>
+
+/*
+Following the features from Exercise 6.1 and Exercise 6.2 , this Exercise 6.3 is addition where we are setting
+also the node name and sending in format of nodelabel:countbuttonpressed . For this we have enabled POST method as well.
+Label is sent on vis post and is saved in variable name[64]. 
+*/
 
 
 generic module CoapButtonCounterResourceP(uint8_t uri_key) {
