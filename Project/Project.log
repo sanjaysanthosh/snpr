@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  6 FEB 2015 00:15
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.8.3)  6 FEB 2015 10:17
 entering extended mode
  %&-line parsing enabled.
 **Project.tex
@@ -861,6 +861,9 @@ File: images/telos.jpg Graphic file (type jpg)
 
  <./images/sensor.jpg> <./images/telos.jpg>] [5
 
+]
+[6
+
  </usr/share/texmf/tex/latex/beamer/base/art/beamericonarticle.pdf>]
 \tf@nav=\write6
 \openout6 = `Project.nav'.
@@ -871,20 +874,18 @@ File: images/telos.jpg Graphic file (type jpg)
 \tf@snm=\write8
 \openout8 = `Project.snm'.
 
- (./Project.aux)
+
+(./Project.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 14585 strings out of 493848
- 272005 string characters out of 1152824
- 335808 words of memory out of 3000000
- 17460 multiletter control sequences out of 15000+50000
+ 14589 strings out of 493848
+ 272038 string characters out of 1152824
+ 336806 words of memory out of 3000000
+ 17462 multiletter control sequences out of 15000+50000
  11854 words of font info for 44 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  49i,14n,53p,396b,563s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -894,9 +895,9 @@ xlive/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-texlive/fonts/
 type1/public/amsfonts/cm/cmss9.pfb></usr/share/texmf-texlive/fonts/type1/public
 /amsfonts/cm/cmssbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
 /symbols/msam10.pfb>
-Output written on Project.pdf (5 pages, 640933 bytes).
+Output written on Project.pdf (6 pages, 647891 bytes).
 PDF statistics:
- 183 PDF objects out of 1000 (max. 8388607)
- 14 named destinations out of 1000 (max. 500000)
+ 208 PDF objects out of 1000 (max. 8388607)
+ 16 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 
