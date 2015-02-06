@@ -52,6 +52,7 @@ implementation {
   SenseC.Boot -> MainC;
   SenseC.Leds -> LedsC;
   SenseC.Timer -> TimerMilliC;
+  SenseC.SerialSender -> TimerMilliC;
   SenseC.Read -> Sensor;
 
   components SerialPrintfC;
