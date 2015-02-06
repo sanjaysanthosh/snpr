@@ -1,0 +1,11 @@
+COMPONENT=SenseAppC
+
+
+PFLAGS += -DNEW_PRINTF_SEMANTICS -DPRINTFUART_ENABLED
+CFLAGS += -I$(TINYOS_OS_DIR)/lib/printf
+
+PFLAGS += -Ichips/msp430/sensors
+
+TINYOS_ROOT_DIR?=$(WSNPR_TOSROOT)
+#TINYOS_ROOT_DIR?=../..
+include $(TINYOS_ROOT_DIR)/Makefile.include
