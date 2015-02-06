@@ -160,7 +160,7 @@ implementation
             rate[9] = IBI;                          // add the latest IBI to the rate array
             runningTotal += rate[9];                // add the latest IBI to runningTotal
             runningTotal /= 10;                     // average the last 10 IBI values 
-            BPM = 60000/runningTotal;               // how many beats can fit into a minute? that's BPM!
+            BPM = 30000/runningTotal;               // how many beats can fit into a minute? that's BPM! //60000
             QS = TRUE;                              // set Quantified Self flag 
             // QS FLAG IS NOT CLEARED INSIDE THIS ISR
           }                       
@@ -199,7 +199,7 @@ implementation
         //printf("{\"S\":%d ,\"B\": %d ,\"Q\": %d}\r\n",Signal,BPM,IBI);
         QS= TRUE;
       }else{
-        printf("%d\n",Signal);
+        printf("%d:%d:%d\n",Signal,0,0);
       }
 
   }
