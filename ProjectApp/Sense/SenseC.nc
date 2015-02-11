@@ -58,30 +58,30 @@ module SenseC
 implementation
 {
   // sampling frequency in binary milliseconds
-  #define SAMPLING_FREQUENCY 2
+  #define SAMPLING_FREQUENCY 24 //2
   #define SERIAL_FREQUENCY 20
   
   /*Main*/
   volatile int BPM;                   // used to hold the pulse rate
   volatile int Signal;                // holds the incoming raw data
   volatile int IBI = 600;             // holds the time between beats, must be seeded! 
-  volatile bool Pulse = FALSE;     // true when pulse wave is high, false when it's low
-  volatile bool QS = TRUE;        // becomes true when Arduoino finds a beat.
+  volatile bool Pulse = FALSE;        // true when pulse wave is high, false when it's low
+  volatile bool QS = TRUE;            // becomes true when we find a beat.
 
 
   /*Timer part*/
-  volatile int rate[10];                    // array to hold last ten IBI values
-  volatile unsigned long sampleCounter = 0;          // used to determine pulse timing
-  volatile unsigned long lastBeatTime = 0;           // used to find IBI
-  volatile int P =2048;//512;                      // used to find peak in pulse wave, seeded
-  volatile int T = 2048;//512;                     // used to find trough in pulse wave, seeded
-  volatile int thresh = 2048;//512;                // used to find instant moment of heart beat, seeded
-  volatile int amp = 100;                   // used to hold amplitude of pulse waveform, seeded
-  volatile bool firstBeat = TRUE;        // used to seed rate array so we startup with reasonable BPM
-  volatile bool secondBeat = FALSE;      // used to seed rate array so we startup with reasonable BPM
+  volatile int rate[10];                              // array to hold last ten IBI values
+  volatile unsigned long sampleCounter = 0;           // used to determine pulse timing
+  volatile unsigned long lastBeatTime = 0;            // used to find IBI
+  volatile int P =2048;//512;                         // used to find peak in pulse wave, seeded
+  volatile int T = 2048;//512;                        // used to find trough in pulse wave, seeded
+  volatile int thresh = 2048;//512;                   // used to find instant moment of heart beat, seeded
+  volatile int amp = 100;                             // used to hold amplitude of pulse waveform, seeded
+  volatile bool firstBeat = TRUE;                     // used to seed rate array so we startup with reasonable BPM
+  volatile bool secondBeat = FALSE;                   // used to seed rate array so we startup with reasonable BPM
   int N;
   int i=0;
-   uint16_t runningTotal=0;
+  uint16_t runningTotal=0;
 
   event void Boot.booted() {
     call Timer.startPeriodic(SAMPLING_FREQUENCY);
@@ -112,7 +112,7 @@ implementation
     }*/
       atomic {
         Signal = data;              // read the Pulse Sensor 
-        sampleCounter += 2;                         // keep track of the time in mS with this variable
+        sampleCounter += 24;                         // keep track of the time in mS with this variable
         N = sampleCounter - lastBeatTime;       // monitor the time since the last beat to avoid noise
 
           //  find the peak and trough of the pulse wave
@@ -130,7 +130,7 @@ implementation
         if (N > 250){                                   // avoid high frequency noise
           if ( (Signal > thresh) && (Pulse == FALSE) && (N > (IBI/5)*3) ){        
             Pulse = TRUE;                               // set the Pulse flag when we think there is a pulse
-            call Leds.led0On();                         // turn on pin 13 LED
+            call Leds.led1On();                         // turn on pin 13 LED
             IBI = sampleCounter - lastBeatTime;         // measure time between beats in mS
             lastBeatTime = sampleCounter;               // keep track of time for next pulse
 
@@ -160,14 +160,14 @@ implementation
             rate[9] = IBI;                          // add the latest IBI to the rate array
             runningTotal += rate[9];                // add the latest IBI to runningTotal
             runningTotal /= 10;                     // average the last 10 IBI values 
-            BPM = 30000/runningTotal;               // how many beats can fit into a minute? that's BPM! //60000
+            BPM = 60000/runningTotal;               // how many beats can fit into a minute? that's BPM! //60000
             QS = TRUE;                              // set Quantified Self flag 
             // QS FLAG IS NOT CLEARED INSIDE THIS ISR
           }                       
         }
 
         if (Signal < thresh && Pulse == TRUE){   // when the values are going down, the beat is over
-          call Leds.led0Off();                 // turn off pin 13 LED
+          call Leds.led1Off();                 // turn off pin 13 LED
           Pulse = FALSE;                         // reset the Pulse flag so we can do it again
           amp = P - T;                           // get amplitude of the pulse wave
           thresh = amp/2 + T;                    // set thresh at 50% of the amplitude
@@ -195,6 +195,7 @@ implementation
         //call Read.read();
       if(QS==TRUE){
         //printf("S%dB%dQ%d\n",Signal,BPM,IBI);
+
         printf("%d:%d:%d\n",Signal,BPM,IBI);
         //printf("{\"S\":%d ,\"B\": %d ,\"Q\": %d}\r\n",Signal,BPM,IBI);
         QS= TRUE;
